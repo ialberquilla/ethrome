@@ -55,10 +55,12 @@ export default function Home() {
   };
 
   const handleSendEmail = async () => {
+
+    await checkMyContacts()
     await sendMail(
       'New email',
       emailContent,
-      '0x72eca419519fa57604396e70a713c044ea855bab',
+      '0x94b74531388db85fa0b37279db89cc353d1a430d',
       'text/plain',
       'iExec-sandbox'
     );
