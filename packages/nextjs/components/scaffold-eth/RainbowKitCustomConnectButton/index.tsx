@@ -10,6 +10,7 @@ import { Address } from "viem";
 import { useNetworkColor } from "~~/hooks/scaffold-eth";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { getBlockExplorerAddressLink } from "~~/utils/scaffold-eth";
+import { usePrivy } from '@privy-io/react-auth';
 
 /**
  * Custom Wagmi Connect Button (watch balance + custom design)
@@ -17,6 +18,7 @@ import { getBlockExplorerAddressLink } from "~~/utils/scaffold-eth";
 export const RainbowKitCustomConnectButton = () => {
   const networkColor = useNetworkColor();
   const { targetNetwork } = useTargetNetwork();
+  const { login, logout, authenticated } = usePrivy();
 
   return (
     <ConnectButton.Custom>
@@ -31,8 +33,8 @@ export const RainbowKitCustomConnectButton = () => {
             {(() => {
               if (!connected) {
                 return (
-                  <button className="btn btn-primary btn-sm" onClick={openConnectModal} type="button">
-                    Connect Wallet
+                  <button className="btn btn-primary btn-sm" onClick={authenticated ? logout : login} type="button">
+                    {authenticated ? 'Logout' : 'Login'}
                   </button>
                 );
               }

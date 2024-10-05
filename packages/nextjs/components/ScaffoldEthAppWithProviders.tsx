@@ -12,6 +12,9 @@ import { Header } from "~~/components/Header";
 import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { useInitializeNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
 import { wagmiConfig } from "~~/services/web3/wagmiConfig";
+import {PrivyProvider} from '@privy-io/react-auth';
+import { PRIVY_APP_ID } from "~~/utils/scaffold-eth/constants";
+
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   useInitializeNativeCurrencyPrice();
@@ -46,6 +49,18 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
   }, []);
 
   return (
+    <PrivyProvider
+    appId={PRIVY_APP_ID}
+    config={{
+      appearance: {
+        theme: 'light',
+        accentColor: '#676FFF',
+      },
+      embeddedWallets: {
+        createOnLogin: 'users-without-wallets',
+      },
+    }}
+  >
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <ProgressBar height="3px" color="#2299dd" />
@@ -57,5 +72,6 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
+    </PrivyProvider>
   );
 };
