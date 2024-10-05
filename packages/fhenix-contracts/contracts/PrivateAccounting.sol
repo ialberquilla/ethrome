@@ -19,8 +19,7 @@ contract PrivateAccounting  {
 
   function processPayment(address user, inEuint32 calldata encryptedValue) public {
     euint32 value = FHE.asEuint32(encryptedValue);
-    ebool isHigher = _balances[user].gt(value);
-    require(FHE.decrypt(isHigher), "Insufficient balance");
+    FHE.req(FHE.gt(_balances[user], value));
     _balances[user] = _balances[user] - value;
   }
 
