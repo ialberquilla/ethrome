@@ -5,7 +5,7 @@
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
-  31337: {
+  80002: {
     PaymentManager: {
       address: "0x8F8044E980bfA4eC31258e8e02bD7bC7E2193736",
       abi: [
@@ -50,7 +50,77 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
   },
-
+  11155111: {
+    PaymentManager: {
+      address: "0x6B029E593b1256aA2d978Fd0C785511E70E3a92b",
+      abi: [
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "bytes",
+              name: "amount",
+              type: "bytes",
+            },
+          ],
+          name: "paymentSent",
+          type: "event",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+            {
+              internalType: "bytes",
+              name: "amount",
+              type: "bytes",
+            },
+          ],
+          name: "addPayment",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "owner",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "token",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {},
+    },
+  },
 } as const;
 
 export default deployedContracts satisfies GenericContractsDeclaration;
