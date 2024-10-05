@@ -35,6 +35,7 @@ const deployPaymentManager: DeployFunction = async function (hre: HardhatRuntime
   // Get the deployed contract to interact with it after deploying.
   const paymentManager = await hre.ethers.getContract<Contract>("PaymentManager", deployer);
 
+  //console log network id
   console.log("👋 PaymentManager deployed at:", await paymentManager.getAddress());
 };  
 

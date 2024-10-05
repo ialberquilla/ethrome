@@ -6,15 +6,15 @@ import Image from "next/image"
 import type { NextPage } from "next"
 import { useAccount } from "wagmi"
 import { BugAntIcon, MagnifyingGlassIcon, CubeIcon, DocumentTextIcon, ArrowUpIcon, ArrowDownIcon, XMarkIcon } from "@heroicons/react/24/outline"
-import { Address } from "~~/components/scaffold-eth"
 import { usePrivy } from '@privy-io/react-auth';
-
+import { useAddPayment } from "../contracts/paymentManager"
+import { SERVICE_CONSUMER_ID, SERVICE_PROVIDER_ID } from "~~/utils/scaffold-eth/constants"
 export default function Home() {
   const { address: connectedAddress } = useAccount()
-  const { authenticated } = usePrivy();
   const [popupContent, setPopupContent] = useState<string | null>(null)
   const [inputValue, setInputValue] = useState("")
   const [isPublic, setIsPublic] = useState(false)
+  const { callAddPayment } = useAddPayment()
 
   const openPopup = (content: string) => {
     setPopupContent(content)
@@ -30,6 +30,11 @@ export default function Home() {
     console.log("Submitted:", { inputValue, isPublic })
     closePopup()
   }
+
+  const handleAddPayment = () => {
+    callAddPayment(connectedAddress as `0x${string}`, "1")
+  }
+
 
   return (
     <div className="flex items-center flex-col flex-grow pt-10 bg-white font-sans">
@@ -129,7 +134,7 @@ export default function Home() {
             </button>
           </div>
           
-          {authenticated && (
+          {connectedAddress &&  connectedAddress == SERVICE_PROVIDER_ID &&(
             <>
               <div className="flex flex-col bg-gray-200 p-10 text-center items-center rounded-3xl shadow-lg border border-gray-200 hover:border-blue-500 transition-all duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-xl">
                 <h3 className="text-2xl font-bold text-blue-600 mb-4">Finance (private)</h3>
@@ -161,7 +166,7 @@ export default function Home() {
                 </div>
                 <button
                   className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors"
-                  onClick={() => openPopup("Finance (private)")}
+                  onClick={() => handleAddPayment() /**openPopup("Finance (private)")**/}
                 >
                   Create payment link
                 </button>
@@ -175,6 +180,41 @@ export default function Home() {
                     { name: "Spotify", amount: "$9.99" },
                     { name: "Amazon Prime", amount: "$14.99" },
                     { name: "GitHub Pro", amount: "$7.99" },
+                  ].map((subscription, index) => (
+                    <div key={index} className="flex items-center space-x-4 border-b border-gray-300 pb-4 hover:bg-gray-200 transition-colors duration-300 ease-in-out rounded px-2">
+                      <Image
+                        src={`/placeholder.svg?height=50&width=50&text=${subscription.name[0]}`}
+                        alt={subscription.name}
+                        width={50}
+                        height={50}
+                        className="rounded-full border-2 border-blue-500 transition-transform duration-300 ease-in-out hover:scale-110"
+                      />
+                      <div className="flex-grow text-left">
+                        <p className="text-blue-600 font-semibold">{subscription.name}</p>
+                        <p className="text-gray-700 text-sm">Monthly subscription</p>
+                      </div>
+                      <p className="text-gray-700 font-bold">{subscription.amount}</p>
+                    </div>
+                  ))}
+                </div>
+                <button
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors"
+                  onClick={() => openPopup("My Subscriptions (private)")}
+                >
+                  View
+                </button>
+              </div>
+            </>
+          )}
+
+          {SERVICE_CONSUMER_ID &&(
+            <>
+             
+              <div className="flex flex-col bg-gray-150 p-10 text-center items-center rounded-3xl shadow-lg border border-gray-200 hover:border-blue-500 transition-all duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-xl">
+                <h3 className="text-2xl font-bold text-blue-600 mb-4">My Services</h3>
+                <div className="w-full space-y-4 mb-6">
+                  {[
+                    { name: "English lessons", amount: "$7.99" },
                   ].map((subscription, index) => (
                     <div key={index} className="flex items-center space-x-4 border-b border-gray-300 pb-4 hover:bg-gray-200 transition-colors duration-300 ease-in-out rounded px-2">
                       <Image

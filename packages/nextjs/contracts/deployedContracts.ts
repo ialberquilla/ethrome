@@ -4,6 +4,53 @@
  */
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
-const deployedContracts = {} as const;
+const deployedContracts = {
+  31337: {
+    PaymentManager: {
+      address: "0x8F8044E980bfA4eC31258e8e02bD7bC7E2193736",
+      abi: [
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "bytes",
+              name: "amount",
+              type: "bytes",
+            },
+          ],
+          name: "paymentSent",
+          type: "event",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+            {
+              internalType: "bytes",
+              name: "amount",
+              type: "bytes",
+            },
+          ],
+          name: "addPayment",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {},
+    },
+  },
+
+} as const;
 
 export default deployedContracts satisfies GenericContractsDeclaration;
