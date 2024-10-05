@@ -5,7 +5,7 @@
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
-  80002: {
+  31337: {
     PaymentManager: {
       address: "0x8F8044E980bfA4eC31258e8e02bD7bC7E2193736",
       abi: [
