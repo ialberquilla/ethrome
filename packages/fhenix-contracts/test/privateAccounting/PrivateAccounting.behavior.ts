@@ -12,6 +12,8 @@ export function shouldBehaveLikePrivateAccounting(): void {
       amountToPay,
     );
 
+    console.log({eAmountPayment})
+
     await this.privateAccounting.connect(this.signers.admin).addPayment(user, eAmountPayment);
 
 
